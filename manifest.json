@@ -9,9 +9,9 @@
   "theme_color": "#0d9488",
   "icons": [
     {
-      "src": "https://api.dicebear.com/9.x/initials/svg?seed=KD&backgroundColor=0d9488",
+      "src": "/Dashboard-/icon.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png"
     }
   ]
 }
