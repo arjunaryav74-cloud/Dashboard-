@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -186,6 +187,37 @@
 
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
+    const SUPABASE_URL = "https://qjckldroguyzlazwmbzh.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_PWIKzzaKki7rBqn3iR61Kw_P5IWBtrP";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    async function saveDashboardState(payload) {
+  const { error } = await supabaseClient
+    .from('dashboard_state')
+    .upsert({
+      user_id: 'aryav-main',
+      data: payload,
+      updated_at: new Date().toISOString()
+    });
+
+  if (error) {
+    console.error('Save failed:', error);
+  }
+}
+
+async function loadDashboardState() {
+  const { data, error } = await supabaseClient
+    .from('dashboard_state')
+    .select('data')
+    .eq('user_id', 'aryav-main')
+    .single();
+
+  if (error) {
+    console.error('Load failed:', error);
+    return null;
+  }
+
+  return data?.data ?? null;
+}
 
     // ==================== DEFAULT DATA ====================
     const DEF_SUBJECTS = [
@@ -2142,6 +2174,37 @@
       const [tutoring, setTutoring] = useState(getItem('hub_tutoring', DEF_TUTORING));
       const [settings, setSettings] = useState(getItem('hub_settings', DEF_SETTINGS));
       const [gym, setGym] = useState(getItem('hub_gym', DEF_GYM));
+      useEffect(() => {
+  async function hydrate() {
+    const saved = await loadDashboardState();
+    if (!saved) return;
+
+    if (saved.subjects) setSubjects(saved.subjects);
+    if (saved.assignments) setAssignments(saved.assignments);
+    if (saved.tasks) setTasks(saved.tasks);
+    if (saved.tutoring) setTutoring(saved.tutoring);
+    if (saved.gym) setGym(saved.gym);
+    if (saved.links) setLinks(saved.links);
+    if (saved.otunes) setOTunes(saved.otunes);
+    if (saved.settings) setSettings(saved.settings);
+  }
+
+  hydrate();
+}, []);
+        useEffect(() => {
+    const payload = {
+      subjects,
+      assignments,
+      tasks,
+      tutoring,
+      gym,
+      links,
+      otunes,
+      settings
+    };
+
+    saveDashboardState(payload);
+  }, 
 
       useEffect(() => {
         setItem('hub_dark', dark);
