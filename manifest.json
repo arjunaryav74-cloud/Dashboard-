@@ -1,0 +1,17 @@
+{
+  "name": "Karthik Dashboard",
+  "short_name": "Dashboard",
+  "description": "Personal student dashboard",
+  "scope": "/Dashboard-/",
+  "start_url": "/Dashboard-/",
+  "display": "standalone",
+  "background_color": "#F0EFE9",
+  "theme_color": "#0d9488",
+  "icons": [
+    {
+      "src": "https://api.dicebear.com/9.x/initials/svg?seed=KD&backgroundColor=0d9488",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
