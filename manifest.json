@@ -9,8 +9,7 @@
   "theme_color": "#0d9488",
   "icons": [
     {
-      "src": "/Dashboard_/icon.png",
-      "sizes": "512x512",
+"src": "/Dashboard-/dashboard_icon.png",      "sizes": "512x512",
       "type": "image/png"
     }
   ]
