@@ -453,7 +453,7 @@ async function loadDashboardState() {
 
       const saveSettings = () => { onSettingsChange(form); setEditOpen(false); };
 
-      const todayStr = now.toISOString().split('T')[0];
+      const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
       const todayTasks = tasks.filter(t => t.dueDate === todayStr && !t.done);
       const pending = assignments.filter(a => a.status !== 'Done');
       const dueThisWeek = pending.filter(a => { if (!a.dueDate) return false; const d = Math.ceil((new Date(a.dueDate+'T00:00:00') - now) / 86400000); return d >= 0 && d <= 7; });
